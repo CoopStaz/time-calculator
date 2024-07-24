@@ -1,3 +1,6 @@
+DAYS_OF_THE_WEEK = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+PM_OR_AM = "AM"
+
 # Converts the time decimal into digital time
 def decimal_to_time(decimal):
     hours = int(decimal)
@@ -6,7 +9,6 @@ def decimal_to_time(decimal):
 
 
 def add_time(start, duration, starting_day=None):
-    # TODO 1. Convert start and duration times to number of hours in a decimal and add their total.
     # Calculates the start times
     start_array = start.split(" ")
     start_time_array = start_array[0].split(":")
@@ -35,18 +37,31 @@ def add_time(start, duration, starting_day=None):
     days_added = 0
     if total_time_decimal > 24:
         days_added += total_time_decimal // 24
-        total_time_decimal -= 24 * days_added
+        print(days_added)
+        total_time_decimal -= (24 * days_added)
 
-    # TODO 2. Add a third parameter which is the starting day of the week.
+    # If the time is greater than 12 the time is in PM
+    if total_time_decimal > 12:
+        total_time_decimal -= 12
+        if int(total_time_decimal) != 0:
+            global PM_OR_AM
+            PM_OR_AM = "PM"
 
-    # TODO 3. Convert the hours back to times in AM or PM
     # Converts the time decimal into digital time
     time = decimal_to_time(total_time_decimal)
     print(time)
 
-    # TODO 4. If result is more than a day later calculate what day it is
+    if not starting_day:
+        if days_added < 1:
+            return f"{time[0]}:{time[1]} {PM_OR_AM}"
+        else:
+            if days_added > 1:
+                return f"{time[0]}:{time[1]} {PM_OR_AM} ({int(days_added)} days later)"
+            else:
+                return f"{time[0]}:{time[1]} {PM_OR_AM} ({int(days_added)} day later)"
+    else:
+        day_index = DAYS_OF_THE_WEEK.index(starting_day)
+        # Do the starting day functionality
 
-    # return new_time
 
-
-add_time('11:30 AM', '2:32')
+print(add_time('6:14 AM', '25:32'))
