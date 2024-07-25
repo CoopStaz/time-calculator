@@ -1,11 +1,14 @@
 DAYS_OF_THE_WEEK = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 PM_OR_AM = "AM"
 
+
 # Converts the time decimal into digital time
 def decimal_to_time(decimal):
     hours = int(decimal)
-    minutes = (decimal - hours) * 60
-    return hours, int(minutes)
+    minutes = round((decimal - hours) * 60)
+    if minutes < 10:
+        minutes = f"0{minutes}"
+    return hours, minutes
 
 
 def add_time(start, duration, starting_day=None):
@@ -20,24 +23,24 @@ def add_time(start, duration, starting_day=None):
     start_minute = int(start_time_array[1]) / 60
 
     start_time_decimal = start_hour + start_minute
+    print(start_time_decimal)
 
     # Calculates the duration times
     duration_array = duration.split(":")
 
     duration_hour = int(duration_array[0])
     duration_minute = int(duration_array[1]) / 60
+    print(duration_minute)
 
     duration_time_decimal = duration_hour + duration_minute
 
     # Gets the sum of both the start time and the duration time to get the new time in decimal form
     total_time_decimal = start_time_decimal + duration_time_decimal
-    print(total_time_decimal)
 
     # If the total time is greater than 24 it adds to the amount of days ahead
     days_added = 0
     if total_time_decimal > 24:
         days_added += total_time_decimal // 24
-        print(days_added)
         total_time_decimal -= (24 * days_added)
 
     # If the time is greater than 12 the time is in PM
@@ -49,7 +52,6 @@ def add_time(start, duration, starting_day=None):
 
     # Converts the time decimal into digital time
     time = decimal_to_time(total_time_decimal)
-    print(time)
 
     if not starting_day:
         if days_added < 1:
@@ -60,8 +62,14 @@ def add_time(start, duration, starting_day=None):
             else:
                 return f"{time[0]}:{time[1]} {PM_OR_AM} ({int(days_added)} day later)"
     else:
-        day_index = DAYS_OF_THE_WEEK.index(starting_day)
-        # Do the starting day functionality
+        formatted_day = starting_day.capitalize()
+        day_index = DAYS_OF_THE_WEEK.index(formatted_day)
+        new_index = day_index + days_added
+
+        if new_index > DAYS_OF_THE_WEEK.index(DAYS_OF_THE_WEEK[-1]):
+            index_in_range = int(new_index // 7)
+            return f"{time[0]}:{time[1]} {PM_OR_AM}, {DAYS_OF_THE_WEEK[index_in_range]} ({int(days_added)} days later)"
 
 
-print(add_time('6:14 AM', '25:32'))
+print(add_time('3:30 PM', '2:12'))
+print(add_time('11:55 AM', '3:12'))
