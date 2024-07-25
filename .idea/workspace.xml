@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3d82c5bf-1295-4a56-9300-4d26c2839c7b" name="Changes" comment="">
+    <list default="true" id="3d82c5bf-1295-4a56-9300-4d26c2839c7b" name="Changes" comment="Fix some minor feature bugs and create day functionality">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -49,6 +49,19 @@
       <option name="presentableId" value="Default" />
       <updated>1721822238177</updated>
     </task>
+    <task id="LOCAL-00001" summary="Fix some minor feature bugs and create day functionality">
+      <option name="closed" value="true" />
+      <created>1721908461406</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1721908461406</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Fix some minor feature bugs and create day functionality" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix some minor feature bugs and create day functionality" />
   </component>
 </project>
