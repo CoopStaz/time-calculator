@@ -1,5 +1,4 @@
 DAYS_OF_THE_WEEK = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-PM_OR_AM = "AM"
 
 
 # Converts the time decimal into digital time
@@ -24,10 +23,15 @@ def add_time(start, duration, starting_day=None):
     start_time_array = start_array[0].split(":")
 
     start_hour = int(start_time_array[0])
-    # Add 12 hours to the time hours if it is in PM time
-    if start_array[1] == "PM":
-        start_hour += 12
     start_minute = int(start_time_array[1]) / 60
+    print(start_hour)
+
+    # Add 12 hours to the time hours if it is in PM time and accounts for 12-hour cycles
+    if start_array[1] == "PM" and start_hour != 12:
+        start_hour += 12
+    elif start_array[1] == "AM" and start_hour == 12:
+        start_hour = 0
+    print(start_hour)
 
     start_time_decimal = start_hour + start_minute
 
@@ -39,36 +43,32 @@ def add_time(start, duration, starting_day=None):
 
     duration_time_decimal = duration_hour + duration_minute
 
-    # Gets the sum of both the start time and the duration time to get the new time in decimal form
+    # Get the sum of both the start time and the duration time to get the new time in decimal form
     total_time_decimal = start_time_decimal + duration_time_decimal
 
-    # If the total time is greater than 24 it adds to the amount of days ahead
-    days_added = 0
-    if total_time_decimal > 24:
-        days_added += int(total_time_decimal // 24)
-        total_time_decimal -= (24 * days_added)
+    # Calculate days added and new time in decimal
+    days_added = int(total_time_decimal // 24)
+    total_time_decimal = total_time_decimal % 24
 
-    # If the time is greater than 12 the time is in PM
-    if total_time_decimal > 12:
-        total_time_decimal -= 12
-        if int(total_time_decimal) != 0:
-            global PM_OR_AM
-            PM_OR_AM = "PM"
-
-    # If the time is 12 then it should change the time to PM
-    if round(total_time_decimal) == 12:
+    # Determine AM or PM
+    PM_OR_AM = "AM"
+    if total_time_decimal >= 12:
         PM_OR_AM = "PM"
+    if total_time_decimal >= 13:
+        total_time_decimal -= 12
+    if total_time_decimal == 12 or total_time_decimal == 0:
+        PM_OR_AM = "PM" if PM_OR_AM == "AM" else "AM"
+        if total_time_decimal == 0:
+            total_time_decimal = 12
 
     # Converts the time decimal into digital time
     time = decimal_to_time(total_time_decimal)
-
-    print(days_added)
 
     # Checks if starting day exists
     if starting_day:
         formatted_day = starting_day.capitalize()
         day_index = DAYS_OF_THE_WEEK.index(formatted_day)
-        new_index = day_index + days_added
+        new_index = (day_index + days_added) % 7
 
         # Checks if days added is less than 1
         if days_added == 1:
@@ -82,8 +82,8 @@ def add_time(start, duration, starting_day=None):
         if days_added > 1:
             return f"{time[0]}:{time[1]} {PM_OR_AM}, {DAYS_OF_THE_WEEK[new_index]} ({int(days_added)} days later)"
 
-    # Checks if starting day doesn't exist
-    if not starting_day:
+    # Runs if starting day doesn't exist
+    else:
         # Checks if days added is 1
         if days_added == 1:
             return f"{time[0]}:{time[1]} {PM_OR_AM} (next day)"
@@ -96,18 +96,6 @@ def add_time(start, duration, starting_day=None):
         if days_added > 1:
             print("trigged1")
             return f"{time[0]}:{time[1]} {PM_OR_AM} ({int(days_added)} days later)"
-
-        return f"{time[0]}:{time[1]} {PM_OR_AM} ({int(days_added)} day later)"
-    else:
-        formatted_day = starting_day.capitalize()
-        day_index = DAYS_OF_THE_WEEK.index(formatted_day)
-        new_index = day_index + days_added
-        if new_index > DAYS_OF_THE_WEEK.index(DAYS_OF_THE_WEEK[-1]):
-            index_in_range = int(new_index // 7)
-
-            return f"{time[0]}:{time[1]} {PM_OR_AM}, {DAYS_OF_THE_WEEK[index_in_range]} ({int(days_added)} days later)"
-        else:
-            return f"{time[0]}:{time[1]} {PM_OR_AM}, {formatted_day}"
 
 
 print(add_time('8:16 PM', '466:02', 'tuesday'))
