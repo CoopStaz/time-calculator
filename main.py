@@ -62,27 +62,52 @@ def add_time(start, duration, starting_day=None):
     # Converts the time decimal into digital time
     time = decimal_to_time(total_time_decimal)
 
-    if days_added == 1:
-        return f"{time[0]}:{time[1]} {PM_OR_AM} (next day)"
-    elif not starting_day:
-        if days_added < 1:
-            return f"{time[0]}:{time[1]} {PM_OR_AM}"
-        elif days_added > 1:
-            return f"{time[0]}:{time[1]} {PM_OR_AM} ({int(days_added)} days later)"
-        else:
-            return f"{time[0]}:{time[1]} {PM_OR_AM} ({int(days_added)} day later)"
-    else:
+    print(days_added)
+
+    # Checks if starting day exists
+    if starting_day:
         formatted_day = starting_day.capitalize()
         day_index = DAYS_OF_THE_WEEK.index(formatted_day)
         new_index = day_index + days_added
 
+        # Checks if days added is less than 1
+        if days_added == 1:
+            return f"{time[0]}:{time[1]} {PM_OR_AM}, {DAYS_OF_THE_WEEK[day_index + 1]} (next day)"
+
+        # Checks if the new_index is greater than the last index of the DAYS_OF_THE_WEEK list
         if new_index > DAYS_OF_THE_WEEK.index(DAYS_OF_THE_WEEK[-1]):
             index_in_range = int(new_index // 7)
+            return f"{time[0]}:{time[1]} {PM_OR_AM}, {DAYS_OF_THE_WEEK[index_in_range]} ({int(days_added)} days later)"
+
+        if days_added > 1:
+            return f"{time[0]}:{time[1]} {PM_OR_AM}, {DAYS_OF_THE_WEEK[new_index]} ({int(days_added)} days later)"
+
+    # Checks if starting day doesn't exist
+    if not starting_day:
+        # Checks if days added is 1
+        if days_added == 1:
+            return f"{time[0]}:{time[1]} {PM_OR_AM} (next day)"
+
+        # Checks if days added is less than 1
+        if days_added < 1:
+            return f"{time[0]}:{time[1]} {PM_OR_AM}"
+
+        # Checks if days added is greater than 1
+        if days_added > 1:
+            print("trigged1")
+            return f"{time[0]}:{time[1]} {PM_OR_AM} ({int(days_added)} days later)"
+
+        return f"{time[0]}:{time[1]} {PM_OR_AM} ({int(days_added)} day later)"
+    else:
+        formatted_day = starting_day.capitalize()
+        day_index = DAYS_OF_THE_WEEK.index(formatted_day)
+        new_index = day_index + days_added
+        if new_index > DAYS_OF_THE_WEEK.index(DAYS_OF_THE_WEEK[-1]):
+            index_in_range = int(new_index // 7)
+
             return f"{time[0]}:{time[1]} {PM_OR_AM}, {DAYS_OF_THE_WEEK[index_in_range]} ({int(days_added)} days later)"
         else:
             return f"{time[0]}:{time[1]} {PM_OR_AM}, {formatted_day}"
 
 
-print(add_time('2:59 AM', '24:00', 'saturDay'))
-print(add_time('11:59 PM', '24:05', 'Wednesday'))
 print(add_time('8:16 PM', '466:02', 'tuesday'))
