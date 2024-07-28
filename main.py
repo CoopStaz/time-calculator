@@ -51,13 +51,13 @@ def add_time(start, duration, starting_day=None):
     total_time_decimal = total_time_decimal % 24
 
     # Determine AM or PM
-    PM_OR_AM = "AM"
+    pm_or_am = "AM"
     if total_time_decimal >= 12:
-        PM_OR_AM = "PM"
+        pm_or_am = "PM"
     if total_time_decimal >= 13:
         total_time_decimal -= 12
     if total_time_decimal == 12 or total_time_decimal == 0:
-        PM_OR_AM = "PM" if PM_OR_AM == "AM" else "AM"
+        pm_or_am = "PM" if pm_or_am == "AM" else "AM"
         if total_time_decimal == 0:
             total_time_decimal = 12
 
@@ -71,24 +71,24 @@ def add_time(start, duration, starting_day=None):
         new_index = (day_index + days_added) % 7
 
         if days_added == 1:
-            return f"{time[0]}:{time[1]} {PM_OR_AM}, {DAYS_OF_THE_WEEK[new_index]} (next day)"
+            return f"{time[0]}:{time[1]} {pm_or_am}, {DAYS_OF_THE_WEEK[new_index]} (next day)"
         elif days_added > 1:
-            return f"{time[0]}:{time[1]} {PM_OR_AM}, {DAYS_OF_THE_WEEK[new_index]} ({int(days_added)} days later)"
+            return f"{time[0]}:{time[1]} {pm_or_am}, {DAYS_OF_THE_WEEK[new_index]} ({int(days_added)} days later)"
         else:
-            return f"{time[0]}:{time[1]} {PM_OR_AM}, {formatted_day}"
+            return f"{time[0]}:{time[1]} {pm_or_am}, {formatted_day}"
 
     # Runs if starting day doesn't exist
     else:
         if days_added == 1:
-            return f"{time[0]}:{time[1]} {PM_OR_AM} (next day)"
+            return f"{time[0]}:{time[1]} {pm_or_am} (next day)"
 
         elif days_added > 1:
             print("trigged1")
-            return f"{time[0]}:{time[1]} {PM_OR_AM} ({int(days_added)} days later)"
+            return f"{time[0]}:{time[1]} {pm_or_am} ({int(days_added)} days later)"
 
         # Checks if days added is less than 1
         else:
-            return f"{time[0]}:{time[1]} {PM_OR_AM}"
+            return f"{time[0]}:{time[1]} {pm_or_am}"
 
 
 print(add_time('3:30 PM', '2:12', 'Monday'))
