@@ -70,32 +70,25 @@ def add_time(start, duration, starting_day=None):
         day_index = DAYS_OF_THE_WEEK.index(formatted_day)
         new_index = (day_index + days_added) % 7
 
-        # Checks if days added is less than 1
         if days_added == 1:
-            return f"{time[0]}:{time[1]} {PM_OR_AM}, {DAYS_OF_THE_WEEK[day_index + 1]} (next day)"
-
-        # Checks if the new_index is greater than the last index of the DAYS_OF_THE_WEEK list
-        if new_index > DAYS_OF_THE_WEEK.index(DAYS_OF_THE_WEEK[-1]):
-            index_in_range = int(new_index // 7)
-            return f"{time[0]}:{time[1]} {PM_OR_AM}, {DAYS_OF_THE_WEEK[index_in_range]} ({int(days_added)} days later)"
-
-        if days_added > 1:
+            return f"{time[0]}:{time[1]} {PM_OR_AM}, {DAYS_OF_THE_WEEK[new_index]} (next day)"
+        elif days_added > 1:
             return f"{time[0]}:{time[1]} {PM_OR_AM}, {DAYS_OF_THE_WEEK[new_index]} ({int(days_added)} days later)"
+        else:
+            return f"{time[0]}:{time[1]} {PM_OR_AM}, {formatted_day}"
 
     # Runs if starting day doesn't exist
     else:
-        # Checks if days added is 1
         if days_added == 1:
             return f"{time[0]}:{time[1]} {PM_OR_AM} (next day)"
 
-        # Checks if days added is less than 1
-        if days_added < 1:
-            return f"{time[0]}:{time[1]} {PM_OR_AM}"
-
-        # Checks if days added is greater than 1
-        if days_added > 1:
+        elif days_added > 1:
             print("trigged1")
             return f"{time[0]}:{time[1]} {PM_OR_AM} ({int(days_added)} days later)"
 
+        # Checks if days added is less than 1
+        else:
+            return f"{time[0]}:{time[1]} {PM_OR_AM}"
 
-print(add_time('8:16 PM', '466:02', 'tuesday'))
+
+print(add_time('3:30 PM', '2:12', 'Monday'))
